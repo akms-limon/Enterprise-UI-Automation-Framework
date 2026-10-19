@@ -1,4 +1,5 @@
-import random
+"""Tests for navigation from the homepage to book details."""
+
 from urllib.parse import urljoin
 
 from playwright.sync_api import Page, expect
@@ -8,6 +9,7 @@ from tests.pages.home_page import HomePage
 
 
 def test_random_book_navigation(page: Page) -> None:
+    """Verify that random books open their matching details pages."""
     home_page = HomePage(page)
     details_page = BookDetailsPage(page)
 
