@@ -1,10 +1,13 @@
-import random
+"""Tests for consistency of homepage and book-details information."""
+
 from playwright.sync_api import Page, expect
+
 from tests.pages.book_details_page import BookDetailsPage
 from tests.pages.home_page import HomePage
 
 
 def test_random_book_title_price_consistency(page: Page) -> None:
+    """Compare displayed titles and prices for randomly selected books."""
     home_page = HomePage(page)
     details_page = BookDetailsPage(page)
 
