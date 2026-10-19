@@ -1,8 +1,12 @@
+"""Tests for login-page navigation and login-state indicators."""
+
 from playwright.sync_api import Page, expect
+
 from tests.pages.login_page import LoginPage
 
 
 def test_login_page_navigation(page: Page) -> None:
+    """Verify that the login form is reachable from the homepage."""
     login_page = LoginPage(page)
     login_page.open()
 
@@ -18,6 +22,7 @@ def test_login_page_navigation(page: Page) -> None:
 
 
 def test_login_and_logout_link(page: Page) -> None:
+    """Verify that submitting credentials displays the logout link."""
     login_page = LoginPage(page)
     login_page.open()
     login_page.navigate_to_login()
