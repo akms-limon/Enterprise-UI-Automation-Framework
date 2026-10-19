@@ -1,9 +1,12 @@
+"""Tests for product image attributes and catalog pagination."""
+
 from playwright.sync_api import Page, expect
 
 from tests.pages.home_page import HomePage
 
 
 def test_product_images_across_pages(page: Page) -> None:
+    """Validate product images while visiting up to five catalog pages."""
     home_page = HomePage(page)
     home_page.open()
 
