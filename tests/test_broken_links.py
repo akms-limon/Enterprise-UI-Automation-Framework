@@ -7,7 +7,6 @@ def test_homepage_broken_links(page: Page) -> None:
     home_page = HomePage(page)
     home_page.open()
 
-    # collect all links from homepage
     hrefs = page.locator("a[href]").evaluate_all(
         "(links) => links.map(link => link.getAttribute('href'))"
     )
@@ -19,18 +18,15 @@ def test_homepage_broken_links(page: Page) -> None:
         if not href:
             continue
 
-        # Ignore non page links and anchors
         if href.startswith(("#", "mailto:", "tel:", "javascript:", "data:")):
             continue
         
-        # Convert relative URLs to absolute URLs
         url = urljoin(home_page.URL, href)
         parsed_url = urlparse(url)
 
         if (parsed_url.scheme not in ["http", "https"]):
             continue
         
-        # Avoid checking duplicate URLs
         if url in checked_urls:
             continue
 

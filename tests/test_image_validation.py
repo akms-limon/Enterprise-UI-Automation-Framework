@@ -12,7 +12,6 @@ def test_product_images_across_pages(page: Page) -> None:
 
         images = page.locator("article.product_pod img")
 
-        # Wait for product images to appear
         expect(images.first).to_be_visible()
 
         image_count = images.count()
@@ -20,7 +19,6 @@ def test_product_images_across_pages(page: Page) -> None:
             f"No images found on page {page_number}"
         )
 
-        # Validate every product image
         for image in images.all():
             expect(image).to_be_visible()
 
@@ -34,7 +32,6 @@ def test_product_images_across_pages(page: Page) -> None:
                 class_name and "thumbnail" in class_name.split()
             ), "Image class does not contain 'thumbnail'"
 
-        # Stop after validating five pages
         if page_number == 5:
             print("Reached maximum of 5 pages. Stopping.")
             break
