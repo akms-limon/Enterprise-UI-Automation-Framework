@@ -1,9 +1,13 @@
+"""Tests for unreachable or unsuccessful homepage links."""
+
 from urllib.parse import urljoin, urlparse
-from playwright.sync_api import Page, expect
+
+from playwright.sync_api import Page
 from tests.pages.home_page import HomePage
 
 
 def test_homepage_broken_links(page: Page) -> None:
+    """Check unique HTTP(S) links on the homepage for failed responses."""
     home_page = HomePage(page)
     home_page.open()
 
@@ -20,13 +24,13 @@ def test_homepage_broken_links(page: Page) -> None:
 
         if href.startswith(("#", "mailto:", "tel:", "javascript:", "data:")):
             continue
-        
+
         url = urljoin(home_page.URL, href)
         parsed_url = urlparse(url)
 
-        if (parsed_url.scheme not in ["http", "https"]):
+        if parsed_url.scheme not in ["http", "https"]:
             continue
-        
+
         if url in checked_urls:
             continue
 
