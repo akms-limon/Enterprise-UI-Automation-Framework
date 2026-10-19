@@ -22,7 +22,7 @@ def test_login_page_navigation(page: Page) -> None:
 
 
 def test_login_and_logout_link(page: Page) -> None:
-    """Verify that submitting credentials displays the logout link."""
+    """Verify successful login and return to the logged-out state."""
     login_page = LoginPage(page)
     login_page.open()
     login_page.navigate_to_login()
@@ -31,3 +31,9 @@ def test_login_and_logout_link(page: Page) -> None:
 
     expect(login_page.logout_link).to_be_visible()
     expect(login_page.logout_link).to_be_enabled()
+
+    login_page.logout()
+
+    expect(page).to_have_url(LoginPage.URL)
+    expect(login_page.login_link).to_be_visible()
+    expect(login_page.logout_link).to_be_hidden()

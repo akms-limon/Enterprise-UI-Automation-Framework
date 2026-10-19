@@ -16,7 +16,8 @@ class HomePage:
         self.page = page
         self.headings = page.locator("h1, h2, h3, h4, h5, h6")
         self.book_cards = page.locator("article.product_pod")
-        self.book_title_links = page.locator("article.product_pod h3 a")
+        self.product_images = page.locator("article.product_pod img")
+        self.next_page_link = page.locator("li.next a")
 
     def open(self) -> None:
         """Navigate to the homepage."""
@@ -34,6 +35,14 @@ class HomePage:
         """Locate the title link inside a book card."""
         return book.locator("h3 a")
 
-    def return_to_homepage(self) -> None:
-        """Use browser history to return to the previous page."""
-        self.page.go_back()
+    def get_book_price(self, book: Locator) -> Locator:
+        """Locate the displayed price inside a book card."""
+        return book.locator(".price_color")
+
+    def has_next_page(self) -> bool:
+        """Check whether an enabled next-page link is available."""
+        return self.next_page_link.is_visible() and self.next_page_link.is_enabled()
+
+    def go_to_next_page(self) -> None:
+        """Navigate to the next page of the book catalog."""
+        self.next_page_link.click()

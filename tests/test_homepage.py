@@ -15,9 +15,7 @@ def test_homepage_loads(page: Page) -> None:
 
     for heading in home_page.headings.all():
         if heading.is_visible():
-            assert heading.inner_text().strip(), (
-                "A visible heading has empty text"
-            )
+            assert heading.inner_text().strip(), "A visible heading has empty text"
 
     expect(home_page.book_cards.first).to_be_visible()
     assert home_page.book_cards.count() > 0, "No books found"

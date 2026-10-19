@@ -15,3 +15,8 @@ allure-results/
 reports/
 *.log
 allure-report/
+
+# Environment variables and local secrets
+.env
+.env.*
+!.env.example

@@ -72,11 +72,15 @@ python -m pytest --headed --slowmo 1000
 ## 7. Project Structure
 
 ```text
-├── .github/workflows/playwright.yml
+├── .github/
+│   └── workflows/
+│       └── playwright.yml
 ├── tests/
+│   ├── __init__.py
 │   ├── pages/
 │   │   ├── home_page.py
-│   │   └── book_details_page.py
+│   │   ├── book_details_page.py
+│   │   └── login_page.py
 │   ├── test_homepage.py
 │   ├── test_book_navigation.py
 │   ├── test_book_details_consistency.py
@@ -101,13 +105,13 @@ python -m pytest --headed --slowmo 1000
 | Data Consistency | Homepage and details-page titles and prices for five random books |
 | Broken Links | Unique hyperlinks and HTTP response statuses |
 | Images and Pagination | Image visibility, `src`, `alt`, `thumbnail` class, and up to five pages |
-| Login and Logout | Login-page navigation, form submission, and logout-link visibility and enabled state |
+| Login and Logout | Login-page navigation, form submission, logout action, and verification of the logged-out state |
 
 ## 9. Report Generation Guide
 
 The framework supports local and GitHub Actions reporting.
 
-### 10. HTML Report Guide
+### HTML Report Guide
 
 ```bash
 mkdir -p reports
@@ -116,7 +120,7 @@ python -m pytest --html=reports/report.html --self-contained-html
 
 Open `reports/report.html` in a browser.
 
-### 11. Allure Report Guide
+### Allure Report Guide
 
 Generate test results and the HTML report:
 
@@ -128,7 +132,15 @@ allure open allure-report
 
 `allure-results/` stores raw results, while `allure-report/` contains the generated HTML report.
 
-## 12. Docker Setup and Execution
+#### Live Allure Report
+
+View the latest published Allure report:
+
+[https://akms-limon.github.io/Enterprise-UI-Automation-Framework/](https://akms-limon.github.io/Enterprise-UI-Automation-Framework/)
+
+GitHub Actions automatically publishes the report after a successful test run on the `main` branch.
+
+## 10. Docker Setup and Execution
 
 Build the image:
 
@@ -149,15 +161,18 @@ docker run --rm \
 
 Generate the Allure HTML report afterward using the commands in the Allure section.
 
-## 13. GitHub Actions Setup
+## 11. GitHub Actions Setup
 
 Workflow: `.github/workflows/playwright.yml`
 
-The workflow triggers on push and pull request events. It checks out the repository, sets up Python and Java, installs dependencies and Chromium, runs tests, generates HTML and Allure reports, and uploads available reports as artifacts.
+The workflow runs tests on pushes and pull requests. On a successful
+push to `main`, it generates the Allure HTML report and publishes it
+to GitHub Pages. Test reports are also uploaded as workflow artifacts.
 
-View workflow logs and download the `test-reports` artifact from the repository's **Actions** tab.
+View workflow logs in the **Actions** tab and download the
+`test-reports` artifact when needed.
 
-## 14. Design Decisions
+## 12. Design Decisions
 
 - **POM:** Separates page-specific locators and interactions from test logic.
 - **DRY and reusability:** Reuses page objects and fixtures.
@@ -165,7 +180,7 @@ View workflow logs and download the `test-reports` artifact from the repository'
 - **CI/CD:** Automates test execution and report collection.
 - **Docker:** Provides a consistent test environment.
 
-## 15. Known Limitations
+## 13. Known Limitations
 
 - Tests depend on external website and network availability.
 - Random selection can vary between runs.

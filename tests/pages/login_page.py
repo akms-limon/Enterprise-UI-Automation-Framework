@@ -31,3 +31,7 @@ class LoginPage:
         self.username.fill(username)
         self.password.fill(password)
         self.submit_button.click()
+
+    def logout(self) -> None:
+        """Log out the current user using the logout link."""
+        self.logout_link.click()

@@ -19,7 +19,7 @@ def test_random_book_title_price_consistency(page: Page) -> None:
         title_link = home_page.get_book_title_link(book)
 
         homepage_title = title_link.get_attribute("title")
-        homepage_price = book.locator(".price_color").inner_text()
+        homepage_price = home_page.get_book_price(book).inner_text()
 
         assert homepage_title, "Homepage book title is missing"
         assert homepage_price, "Homepage book price is missing"

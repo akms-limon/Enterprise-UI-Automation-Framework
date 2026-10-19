@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for browser setup and application URLs."""
+"""Shared pytest fixtures for browser setup."""
 
 import pytest
 
@@ -10,9 +10,3 @@ def browser_context_args(browser_context_args):
         **browser_context_args,
         "ignore_https_errors": True,
     }
-
-
-@pytest.fixture
-def website_url() -> str:
-    """Provide the main Books to Scrape homepage URL."""
-    return "https://books.toscrape.com/index.html"

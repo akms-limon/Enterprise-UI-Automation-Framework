@@ -2,7 +2,9 @@
 
 from urllib.parse import urljoin, urlparse
 
+from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import Page
+
 from tests.pages.home_page import HomePage
 
 
@@ -39,16 +41,11 @@ def test_homepage_broken_links(page: Page) -> None:
         try:
             response = page.request.get(url, timeout=15000)
             if response.status >= 400:
-                broken_links.append(
-                    f"{url} returned HTTP {response.status}"
-                )
+                broken_links.append(f"{url} returned HTTP {response.status}")
 
-        except Exception as error:
-            broken_links.append(
-                f"{url} could not be reached: {error}"
-            )
+        except PlaywrightError as error:
+            broken_links.append(f"{url} could not be reached: {error}")
 
-    assert not broken_links, (
-        "Broken links found on homepage:\n"
-        + "\n".join(broken_links)
+    assert not broken_links, "Broken links found on homepage:\n" + "\n".join(
+        broken_links
     )
