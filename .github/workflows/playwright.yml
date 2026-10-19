@@ -56,6 +56,12 @@ jobs:
               --clean -o allure-report
           fi
 
+      - name: Upload Allure report for GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && success()
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: allure-report/
+
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v7
@@ -68,3 +74,21 @@ jobs:
             test-results/
           if-no-files-found: ignore
           retention-days: 14
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
