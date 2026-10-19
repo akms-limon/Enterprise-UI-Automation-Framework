@@ -1,25 +1,21 @@
 from playwright.sync_api import Page, expect
+from tests.pages.home_page import HomePage
 
 
-def test_homepage_loads(page: Page, website_url: str) -> None:
-    page.goto(website_url)
+def test_homepage_loads(page: Page) -> None:
+    home_page = HomePage(page)
+    home_page.open()
 
     # Verify URL and page title
-    expect(page).to_have_url(website_url)
-    expect(page).to_have_title(
-        "All products | Books to Scrape - Sandbox"
-    )
+    expect(page).to_have_url(home_page.URL)
+    expect(page).to_have_title(home_page.TITLE)
 
-    # Verify every visible heading has non-empty text
-    headings = page.locator("h1, h2, h3, h4, h5, h6")
-
-    for heading in headings.all():
+    for heading in home_page.headings.all():
         if heading.is_visible():
-            text = heading.inner_text().strip()
-            assert text, "A visible heading has empty text"
+            assert heading.inner_text().strip(), (
+                "A visible heading has empty text"
+            )
 
     # Verify the books section contains at least one book
-    books = page.locator("article.product_pod")
-
-    expect(books.first).to_be_visible()
-    assert books.count() > 0, "No books found on the homepage"
+    expect(home_page.book_cards.first).to_be_visible()
+    assert home_page.book_cards.count() > 0, "No books found"
