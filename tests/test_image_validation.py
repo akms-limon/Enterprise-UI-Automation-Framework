@@ -10,10 +10,13 @@ def test_product_images_across_pages(page: Page) -> None:
     for page_number in range(1, 6):
         print(f"Validating page {page_number}: {page.url}")
 
-        current_url = page.url
         images = page.locator("article.product_pod img")
 
-        assert images.count() > 0, (
+        # Wait for product images to appear
+        expect(images.first).to_be_visible()
+
+        image_count = images.count()
+        assert image_count > 0, (
             f"No images found on page {page_number}"
         )
 
@@ -36,13 +39,12 @@ def test_product_images_across_pages(page: Page) -> None:
             print("Reached maximum of 5 pages. Stopping.")
             break
 
-        # Stop if there is no Next button
         next_button = page.locator("li.next a")
 
         if not next_button.is_visible() or not next_button.is_enabled():
-            print("Next button unavailable. Stopping.")
+            print("No more pages available. Stopping.")
             break
 
-        # Navigate to the next page and verify navigation
+        current_url = page.url
         next_button.click()
         expect(page).not_to_have_url(current_url)
