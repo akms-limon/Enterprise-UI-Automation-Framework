@@ -9,6 +9,7 @@ class HomePage:
         self.page = page
         self.headings = page.locator("h1, h2, h3, h4, h5, h6")
         self.book_cards = page.locator("article.product_pod")
+        self.book_title_links = page.locator("article.product_pod h3 a")
 
     def open(self) -> None:
         self.page.goto(self.URL)
