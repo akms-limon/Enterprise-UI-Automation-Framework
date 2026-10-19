@@ -7,3 +7,6 @@ class BookDetailsPage:
         self.title = page.locator("div.product_main h1")
         self.price = page.locator("div.product_main .price_color")
         self.book_information = page.locator("div.product_main")
+
+    def go_back(self) -> None:
+        self.page.go_back()

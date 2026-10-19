@@ -10,13 +10,10 @@ def test_random_book_title_price_consistency(page: Page) -> None:
 
     home_page.open()
 
-    books = home_page.book_cards.all()
-    assert books, "No books are available on the homepage"
-
-    selected_books = random.sample(books, min(5, len(books)))
+    selected_books = home_page.select_random_books()
 
     for book in selected_books:
-        title_link = book.locator("h3 a")
+        title_link = home_page.get_book_title_link(book)
 
         homepage_title = title_link.get_attribute("title")
         homepage_price = book.locator(".price_color").inner_text()
@@ -32,5 +29,5 @@ def test_random_book_title_price_consistency(page: Page) -> None:
         expect(details_page.price).to_be_visible()
         expect(details_page.price).to_have_text(homepage_price)
 
-        page.go_back()
+        details_page.go_back()
         expect(page).to_have_url(HomePage.URL)

@@ -1,3 +1,4 @@
+import random
 from playwright.sync_api import Locator, Page
 
 
@@ -13,3 +14,16 @@ class HomePage:
 
     def open(self) -> None:
         self.page.goto(self.URL)
+
+    def select_random_books(self, limit: int = 5) -> list[Locator]:
+        books = self.book_cards.all()
+
+        assert books, "No books are available on the homepage"
+
+        return random.sample(books, min(limit, len(books)))
+
+    def get_book_title_link(self, book: Locator) -> Locator:
+        return book.locator("h3 a")
+
+    def return_to_homepage(self) -> None:
+        self.page.go_back()

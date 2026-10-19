@@ -13,14 +13,10 @@ def test_random_book_navigation(page: Page) -> None:
 
     home_page.open()
 
-    books = home_page.book_cards.all()
+    selected_books = home_page.select_random_books()
 
-    assert books, "No books are available on the homepage"
-
-    selected_books = random.sample(books, min(5, len(books)))
-    
     for book in selected_books:
-        title_link = book.locator("h3 a")
+        title_link = home_page.get_book_title_link(book)
 
         selected_title = title_link.get_attribute("title")
         href = title_link.get_attribute("href")
@@ -38,5 +34,5 @@ def test_random_book_navigation(page: Page) -> None:
         expect(details_page.title).to_have_text(selected_title)
         expect(details_page.book_information).to_be_visible()
 
-        page.go_back()
+        details_page.go_back()
         expect(page).to_have_url(HomePage.URL)
