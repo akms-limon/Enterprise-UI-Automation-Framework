@@ -39,12 +39,6 @@ pip install -r requirements.txt
 python -m playwright install chromium
 ```
 
-For Linux browser dependencies, if needed:
-
-```bash
-python -m playwright install --with-deps chromium
-```
-
 ## 5. Environment Setup
 
 The `pytest.ini` configuration sets the test directory, naming conventions, and default Chromium browser. Python dependencies are listed in `requirements.txt`. Java and the Allure CLI are required to generate and open Allure HTML reports.
